@@ -7,7 +7,7 @@ export async function GET() {
     const page = pdfDoc.addPage([80, 52]);
     const { width, height } = page.getSize();
 
-    const fontSize = 6;
+    const fontSize = 4;
     // const fontSizeLabel = 4
     const productName = 'TAMPA 28MM 1881 27K AZUL ESCURO';
 
@@ -31,7 +31,7 @@ export async function GET() {
     const yFistLine = productName.length > 22 ? 7 : 10
     // max length 22
     page.drawText(productNameObject.firstLine, {
-        x: 5,
+        x: 7,
         y: height - yFistLine,
         size: fontSize,
         font: timesRomanFont,
@@ -39,7 +39,7 @@ export async function GET() {
     });
     if (productNameObject.secondLine.length) {
         page.drawText(productNameObject.secondLine, {
-            x: 5,
+            x: 7,
             y: height - 13,
             size: fontSize,
             font: timesRomanFont,
@@ -47,7 +47,7 @@ export async function GET() {
         });
     }
     page.drawText('9nfp2imucu1pcpo0', {
-        x: 5,
+        x: 7,
         y: height - 19,
         size: fontSize,
         font: timesRomanFont,
@@ -61,21 +61,21 @@ export async function GET() {
     })
 
     page.drawText('LOTE: 9nfp2imucu1pcpo0', {
-        x: 5,
+        x: 7,
         y: height - 29,
         size: fontSize,
         font: timesRomanFont,
         color: rgb(0, 0, 0),
     });
     page.drawText('VLM: 923nuv39v8pc98c9mp', {
-        x: 5,
+        x: 7,
         y: height - 36,
         size: fontSize,
         font: timesRomanFont,
         color: rgb(0, 0, 0),
     });
     page.drawText('QTD: 2 MIL', {
-        x: 5,
+        x: 7,
         y: height - 43,
         size: fontSize,
         font: timesRomanFont,
