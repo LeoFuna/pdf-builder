@@ -12,7 +12,7 @@ export async function GET() {
     const productName = 'TAMPA 28MM 1881 27K AZUL ESCURO';
 
     const productNameObject = productName.split(' ').reduce((acc, curr) => {
-        if (acc.firstLine.length < 27) {
+        if (acc.firstLine.length < 24) {
             if (!acc.firstLine.length) {
                 acc.firstLine = curr;
             } else {
@@ -28,7 +28,7 @@ export async function GET() {
         return acc;
     }, { firstLine: '', secondLine: '' });
 
-    const yFistLine = productName.length > 27 ? 7 : 10
+    const yFistLine = productName.length > 24 ? 7 : 10
     // max length 22
     page.drawText(productNameObject.firstLine, {
         x: 10,
@@ -55,7 +55,7 @@ export async function GET() {
     });
     page.drawLine({
         start: { x: 7, y: height - 22 },
-        end: { x: width + 3, y: height - 22 },
+        end: { x: width + 20, y: height - 22 },
         thickness: 0.5,
         color: rgb(0, 0, 0),
     })
