@@ -9,7 +9,7 @@ export async function GET() {
 
     const fontSize = 4;
     // const fontSizeLabel = 4
-    const productName = 'TAMPA 28MM 1881 27K AZUL ESCURO';
+    const productName = 'TAMPA 28MM 1881 27K AZUL';
 
     const productNameObject = productName.split(' ').reduce((acc, curr) => {
         if (acc.firstLine.length < 24) {
