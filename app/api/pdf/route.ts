@@ -1,17 +1,17 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 
-export async function GET() {
+export async function POST(req: NextRequest) {
+    const { productName, productId, batchId, vlmId, quantity } = await req.json();
     const pdfDoc = await PDFDocument.create();
     const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);   
     const page = pdfDoc.addPage([80, 52]);
     const { width, height } = page.getSize();
 
     const fontSize = 4;
-    // const fontSizeLabel = 4
-    const productName = 'TAMPA 28MM 1881 27K AZUL';
 
-    const productNameObject = productName.split(' ').reduce((acc, curr) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const productNameObject = productName.split(' ').reduce((acc: any, curr: any) => {
         if (acc.firstLine.length < 24) {
             if (!acc.firstLine.length) {
                 acc.firstLine = curr;
@@ -29,7 +29,7 @@ export async function GET() {
     }, { firstLine: '', secondLine: '' });
 
     const yFistLine = productName.length > 24 ? 7 : 10
-    // max length 22
+
     page.drawText(productNameObject.firstLine, {
         x: 10,
         y: height - yFistLine,
@@ -46,7 +46,7 @@ export async function GET() {
             color: rgb(0, 0, 0),
         });
     }
-    page.drawText('9nfp2imucu1pcpo0', {
+    page.drawText(productId, {
         x: 10,
         y: height - 19,
         size: fontSize,
@@ -55,26 +55,26 @@ export async function GET() {
     });
     page.drawLine({
         start: { x: 7, y: height - 22 },
-        end: { x: width + 20, y: height - 22 },
+        end: { x: width + 3, y: height - 22 },
         thickness: 0.5,
         color: rgb(0, 0, 0),
     })
 
-    page.drawText('LOTE: 9nfp2imucu1pcpo0', {
+    page.drawText(`LOTE: ${batchId}`, {
         x: 10,
         y: height - 29,
         size: fontSize,
         font: timesRomanFont,
         color: rgb(0, 0, 0),
     });
-    page.drawText('VLM: 923nuv39v8pc98c9mp', {
+    page.drawText(`VLM: ${vlmId}`, {
         x: 10,
         y: height - 36,
         size: fontSize,
         font: timesRomanFont,
         color: rgb(0, 0, 0),
     });
-    page.drawText('QTD: 2 MIL', {
+    page.drawText(`QTD: ${quantity} MIL`, {
         x: 10,
         y: height - 43,
         size: fontSize,
@@ -85,7 +85,5 @@ export async function GET() {
 
     const pdfBytes = await pdfDoc.save();
     
-    return NextResponse.json({ 
-        base64Url: `data:application/pdf;base64,${Buffer.from(pdfBytes).toString('base64')}`,
-        base64: Buffer.from(pdfBytes).toString('base64') }, { status: 200 });
+    return NextResponse.json(Buffer.from(pdfBytes).toString('base64'), { status: 200 });
 }
